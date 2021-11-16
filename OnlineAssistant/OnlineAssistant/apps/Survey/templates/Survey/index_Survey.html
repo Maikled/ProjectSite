@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="{% static 'css/style_Survey.css' %}"/>
+
+<head>
+	<title>Опрос</title>
+</head>
+
+<script>
+	const data = { };
+	const list = { };
+
+	function change_color(elem, question){
+		if (elem.value == elem.name) {
+			elem.style.background = "#66CDAA";
+		}
+		else {
+			elem.style.background = "#F08080";
+		}
+		var el = document.getElementsByName(elem.name);
+		for (var i = 0; i < el.length; i++) {
+			el[i].setAttribute('disabled', true);
+		}
+		data["answer"] = elem.value;
+		data["user"] = '{{ user }}';
+		data["survey"] = '{{ survey }}';
+		data["right_answer"] = elem.name;
+		console.log(data);
+		list[question] = JSON.stringify(data)
+		console.log(list);
+	}
+
+	async function send(csrftoken){
+		await fetch('{% url 'reply' %}',
+				{ body: JSON.stringify(list),
+				  method: 'POST',
+				  headers: { 'X-CSRFToken': csrftoken,
+				  			 'Content-Type': 'application/json;charset=utf-8' } });
+	}
+</script>
+
+
+<body>
+
+    <div class="title_Survey">
+		<center>
+			<h2><font face="corbel"> Квалификационный опрос </font></h2>
+			<h1><font face="corbel">{{ title_Survey.survey_topic }}</font></h1>
+    	</center>
+	</div>
+
+	{% for el in data %}
+		{% for question, answers in el.items %}
+			<div class="question-form">
+				<h3><font face="corbel">{{ question.text_question }}</font></h3>
+				{% for answer in answers %}
+					<p><input type="submit" class="answer-button" value="{{ answer.text_answer }}" onclick="change_color(this, '{{question}}')" name="{{ question.id_right_answer }}"/></p>
+				{% endfor %}
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	<center>
+		<form action="{% url 'index_end_Survey' %}" method="POST">
+			{% csrf_token %}
+			<input type="submit" name="enter" value="Отправить ответы" onclick="send('{{ csrf_token }}')" class="send-button"/>
+			<input type="hidden" name="user" value="{{ user }}">
+		</form>
+	</center>
+
+</body>
+</html>

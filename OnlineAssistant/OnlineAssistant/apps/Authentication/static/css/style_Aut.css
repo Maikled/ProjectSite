@@ -1,0 +1,46 @@
+body {
+    background-image: url('bg.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.inputs {
+    width: 300px;
+    height:30px;
+    margin-bottom: 25px;
+}
+  
+.login-form {
+	position: relative;
+	width: 450px;
+	height: 330px;
+	left: 38%;
+	margin-top: 15%;
+	background: #fff;
+	opacity: .9;
+	padding-top: 1%;
+}
+
+input[type=submit] {
+	margin-top: 20px;
+	width: 80px;
+	height: 30px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #fff;
+	background: #000000;
+	border-radius: 30px;
+}
+
+.uncorrected {
+    background: #F1D0D0;
+    width: 450px;
+    left: 38%;
+    height: 40px;
+    position: relative;
+    opacity: .7;
+    padding-top: 1%;
+    margin-top: 1%;
+    font-size: 18px;
+}

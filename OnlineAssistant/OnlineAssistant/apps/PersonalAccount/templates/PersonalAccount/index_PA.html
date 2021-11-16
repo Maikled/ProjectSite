@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+
+<meta charset="UTF-8">
+<link type="text/css" rel="stylesheet" href="{% static 'css/style_PA.css' %}"/>
+
+{% if user_type == "employee" %}
+	<title>Личный кабинет сотрудника</title>
+{% endif %}
+{% if user_type == "manager" %}
+	<title>Личный кабинет руководителя</title>
+{% endif %}
+{% if user_type == "admin" %}
+	<title>Личный кабинет администратора</title>
+{% endif %}
+
+
+<head>
+	<script>
+		async function send(csrftoken, data){
+		await fetch('{% url 'reply' %}',
+				{ body: JSON.stringify(list),
+				  method: 'POST',
+				  headers: { 'X-CSRFToken': csrftoken,
+				  			 'Content-Type': 'application/json;charset=utf-8' } });
+		}
+
+	</script>
+
+	<style>
+		.progress {
+			width: {{progress_ipr}}%;
+			padding-bottom: 14%;
+			background: #20B2AA;
+			margin: 0%;
+		}
+	</style>
+
+
+<body>
+	<meta charset="UTF-8">
+
+	<div>
+		<div>
+			<input class="photo" type="image" src="{% static 'image/user.png' %}" alt="" formenctype="multipart/form-data"/>
+		</div>
+
+		<div class="block">
+			<div class="topic-div">
+				<center>
+					<span class="label-topic"><font face="Segoe UI">Информация о пользователе</font></span>
+				</center>
+			</div>
+
+			<div class="user-info-topic">
+				<p><label><font face="Segoe UI">Фамилия:</font></label></p>
+				<p><label><font face="Segoe UI">Имя:</font></label></p>
+				<p><label><font face="Segoe UI">Отчетство:</font></label></p>
+				<p><label><font face="Segoe UI">Дата рождения:</font></label></p>
+				<p><label><font face="Segoe UI">Пол:</font></label></p>
+				<p><label><font face="Segoe UI">Должность:</font></label></p>
+			</div>
+
+			<div class="user-info">
+				<p><label><font face="Segoe UI">{{ user.firstname }}</font></label></p>
+				<p><label><font face="Segoe UI">{{ user.lastname }}</font></label></p>
+				<p><label><font face="Segoe UI">{{ user.patronymic }}</font></label></p>
+				<p><label><font face="Segoe UI">{{ user.dateOfBirth }}</font></label></p>
+				<p><label><font face="Segoe UI">{{ user.gender }}</font></label></p>
+				<p><label><font face="Segoe UI">{{ user.position }}</font></label></p>
+			</div>
+		</div>
+	</div>
+
+	{% if user_type == "employee" %}
+		<div>
+			<center>
+				<form name="Surveys" action="{% url 'list_of_Surveys' %}" method="POST">
+					{% csrf_token %}
+					<p><input class="button" type="submit" value="Пройти квалификационный опрос" name="enter"/></p>
+					<input type="hidden" name="id" value="{{ user.aut.id }}">
+				</form>
+			</center>
+		</div>
+
+		<div class="block">
+			<center>
+				<h2><font face = "corbel">Индивидуальные программы развития</font></h2>
+			</center>
+			{% for key, value in user_ipr.items %}
+				<div class="ipr_div">
+					<form name="ИПР" action="{% url 'ipr' %}" method="POST" onclick="">
+						{% csrf_token %}
+						<input class="inputs" type="submit" value="{{ key }}">
+						<div class="p-div">
+							<div class="progress"></div>
+						</div>
+						<input class="percent-ipr" placeholder="{{progress_ipr}} %" disabled>
+						<input type="hidden" name="id" value="{{ user.aut.id }}">
+						<input type="hidden" name="data_key" value="{{ key }}">
+						<input type="hidden" name="data_value" value="{{ value }}">
+					</form>
+				</div>
+			{% endfor %}
+		</div>
+
+<!--		<div class="block">-->
+<!--			<form name="Ссылки" action="" method=""  id="">-->
+<!--				<center>-->
+<!--					<h2><font face = "corbel"> Ссылки на материалы:</font></h2>-->
+<!--				</center>-->
+<!--				<input class="inputs" type="text" placeholder="Ссылки" readonly>-->
+<!--			</form>-->
+<!--		</div>-->
+	{% endif %}
+
+	{% if user_type == "manager" %}
+		<div class="block">
+			<form name="СИПР" action="">
+				<center>
+					<h2><font face = "corbel"> Список всех ИПР сотрудников с их прогрессами:</font></h2>
+				</center>
+				{% for el in all_employees %}
+<!--				<input class="inputs" placeholder="Список всех ИПР сотрудников с их прогрессами:" readonly>-->
+					<input class="survey" value="{{ el.firstname }} {{ el.lastname }} - {{ el.position }}" type="submit" disabled>
+				{% endfor %}
+			</form>
+		</div>
+	{% endif %}
+
+	{% if user_type == "manager" or user_type == "admin" %}
+		<div class="block">
+			<form name="Список опросов" action="">
+			<center>
+				<h2><font face = "corbel"> Список всех опросов:</font></h2>
+			</center>
+			{% for el in all_surveys %}
+				<form action="{% url 'index_Survey' %}">
+					<input class="survey" value="{{ el.survey_topic }}" type="submit" disabled>
+					<input type="hidden" value="{{ el.id }}" name="id_Survey">
+					<input type="hidden" value="{{ user.aut.id }}" name="user">
+				</form>
+			{% endfor %}
+			</form>
+		</div>
+	{% endif %}
+
+</body>
+</html>

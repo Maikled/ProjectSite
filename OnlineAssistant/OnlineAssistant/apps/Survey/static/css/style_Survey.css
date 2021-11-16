@@ -1,0 +1,57 @@
+body {
+    background-image: url('bg.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+.title_Survey {
+	position: relative;
+	width: 46%;
+	height: 50%;
+	top: 20%;
+	left: 27%;
+	background: #fff;
+	opacity: .9;
+	border-radius: 10px;
+    margin-top: 3%;
+    padding: 1%;
+    float: center;
+}
+
+
+.question-form {
+	position: relative;
+	width: 46%;
+	height: 28%;
+	top: 20%;
+	left: 27%;
+	background: #fff;
+	opacity: .9;
+	border-radius: 10px;
+	margin-top: 3%;
+	padding: 1%;
+}
+
+
+.answer-button {
+    border-radius: 10px;
+    border: 1px solid lightgray;
+    margin-top: 1%;
+    padding: 1%;
+    width: 100%;
+    text-align: left;
+}
+
+
+.send-button {
+	position: relative;
+    width: 30%;
+    padding: 0.5%;
+    margin: 2%;
+    border-radius: 10px;
+    border: 2px solid gray;
+    float: center;
+    background: #20B2AA;
+}

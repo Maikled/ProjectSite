@@ -1,0 +1,69 @@
+body {
+    background-image: url('bg.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.title_Survey {
+	position: relative;
+	width: 46%;
+	height: 50%;
+	top: 20%;
+	left: 25%;
+	background: #fff;
+	opacity: .9;
+	border-radius: 10px;
+    margin-top: 3%;
+    padding: 1%;
+    float: center;
+}
+
+
+.Surveys {
+    margin-top: 5%;
+    position: relative;
+    background: #fff;
+    opacity: .9;
+    border-radius: 10px;
+    width: 46%;
+    left: 25%;
+    padding: 1%;
+}
+
+
+.survey {
+    text-align: left;
+    border-radius: 10px;
+    padding: 1%;
+    font-size: 14pt;
+    border: 1px solid lightgray;
+    left: 0%;
+    width: 70%;
+}
+
+
+.survey_passed {
+    text-align: left;
+    border-radius: 10px;
+    padding: 1%;
+    font-size: 14pt;
+    border: 1px solid lightgray;
+    left: 0%;
+    width: 70%;
+    background: #20B2AA;
+}
+
+
+.survey-status {
+    text-align: right;
+    border: 1px solid #fff;
+    width: 15%;
+}
+
+.survey_list {
+    margin-bottom: 3%;
+    margin-top: 3%;
+}
+
+

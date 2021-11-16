@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+	padding: 0;
+	height: 1000px;
+	background: #fff;
+    background-image: url('bg.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.button2 {
+	position: relative;
+	top: 50%;
+	left: 30%;
+	margin-top: 30px;
+	width: 40%;
+	height: 13%;
+	font-size: 14px;
+	font-weight: normal;
+	color: #000000;
+	background: #20B2AA;
+	border-radius: 30px;
+}
+
+.ipr {
+	background: #ffffff;
+	padding: 1%;
+	border-radius: 10px;
+	left: 28.5%;
+	width: 40%;
+	top: 15%;
+	position: relative;
+ }
+
+.text {
+	top: 5%;
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	position: relative;
+	padding: 1%;
+	width: 40%;
+	float: left;
+	background-color: #EFEFEF;
+	font-size: 14px;
+}
+
+.progressbar-true {
+    background-color: #66CDAA;
+    position: relative;
+    overflow: hidden;
+    float: left;
+    margin-right: 0.5%;
+    border-radius: 5px;
+}
+
+.progressbar-false {
+    background-color: #EFEFEF;
+    position: relative;
+    overflow: hidden;
+    float: left;
+    margin-right: 0.5%;
+    border-radius: 5px;
+}
+
+.refs-false {
+    padding: 1%;
+    border: 1px solid lightgray;
+    position: relative;
+    float: right;
+    width: 50%;
+    padding-bottom: 4%;
+    background-color: #EFEFEF;
+    border-radius: 10px;
+}
+
+.refs-true {
+    padding: 1%;
+    border: 1px solid lightgray;
+    position: relative;
+    float: right;
+    width: 50%;
+    padding-bottom: 4%;
+    background-color: #66CDAA;
+    border-radius: 10px;
+}
+
+.divs {
+    padding-bottom: 8%;
+}
+
+.status {
+    background-color: #FFFFFF;
+    border: 1px solid white;
+    float: right;
+    text-align: right;
+}

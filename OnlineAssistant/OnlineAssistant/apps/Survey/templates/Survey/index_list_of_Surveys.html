@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="{% static 'css/style_list_of_Surveys.css' %}"/>
+
+<head>
+    <title>Список опросов</title>
+</head>
+
+<body>
+    <div class="title_Survey">
+        <center>
+            <h2><font face="corbel">Список доступных опросов</font></h2>
+        </center>
+    </div>
+
+    <div class="Surveys">
+        <center>
+            <div>
+                {% for survey in data_Surveys %}
+                    <div class="survey_list">
+                        <form action="{% url 'index_Survey' %}" method="GET">
+                            <input type="hidden" name="id_Survey" value="{{ survey.id }}">
+                            <input type="hidden" name="user" value="{{ user }}">
+                            {% if  survey.survey_topic in user_logs %}
+                                <input class="survey_passed" value="{{ survey.survey_topic }}" type="submit">
+                                <input class="survey-status" value="Пройден" readonly><br>
+                            {% else %}
+                                <input class="survey" value="{{ survey.survey_topic }}" type="submit">
+                                <input class="survey-status" value="Не пройден" readonly><br>
+                            {% endif %}
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </center>
+    </div>
+
+
+
+
+
+
+</body>
+</html>
