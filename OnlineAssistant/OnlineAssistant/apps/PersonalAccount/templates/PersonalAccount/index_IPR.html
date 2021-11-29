@@ -41,7 +41,8 @@
 		{% for question, refs_and_status  in tasks.items %}
 			<div class="divs">
 				<div>
-					<input class="text" type="text" value="{{ question }}" disabled>
+					<label class="text">{{question}}</label>
+<!--					<input class="text" type="text" value="{{ question }}" disabled>-->
 				</div>
 				{% for ref, status in refs_and_status.items %}
 						{% if status == '0' %}

@@ -1,0 +1,174 @@
+body {
+    background-image: url('bg.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.monitoring {
+    background-color: #FFFFFF;
+    width: 65%;
+    margin: 3%;
+    padding: 2%;
+    text-align: left;
+    position: relative;
+    border-radius: 20px;
+}
+
+.label {
+    padding-left: 2%;
+    font-family: Segoe UI;
+    text-align: center;
+    padding-top: 2%;
+    margin-bottom: 2%;
+}
+
+.info {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 5%;
+}
+
+.personal {
+    background-color: Lightgray;
+    width: 70%;
+    border-radius: 20px;
+    padding: 2%;
+    margin-bottom: 2%;
+    float: left;
+}
+
+.persent_finish {
+    width: 10%;
+    border: solid 1px gray;
+    border-radius: 5px;
+    float: left;
+    position: relative;
+    margin-left: 6%;
+}
+
+.personal_info {
+    font-size: 20px;
+    font-weight: bolder;
+    margin: 2%;
+}
+
+.personal_status {
+    font-size: 18px;
+    font-weight: bolder;
+    margin: 2%;
+}
+
+.ipr {
+    background-color: #EEEEEE;
+    border-radius: 20px;
+    width: 70%;
+    padding-top: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 5%;
+    margin-bottom: 5%;
+    text-align: center;
+    float: left;
+}
+
+.question {
+    border-radius: 10px;
+    width: 70%;
+    padding: 1%;
+    text-align: left;
+    position: relative;
+    float: left;
+    margin: 1%;
+    border: solid 1px gray;
+}
+
+.status-true {
+    position: relative;
+    margin: 1%;
+    padding: 1%;
+    text-align: center;
+    border: solid 1px gray;
+    float: right;
+    width: 20%;
+    background-color: #20B2AA;
+    border-radius: 10px;
+}
+
+.status-false {
+    position: relative;
+    margin: 1%;
+    padding: 1%;
+    text-align: center;
+    border: solid 1px lightgray;
+    float: right;
+    width: 20%;
+    border-radius: 10px;
+}
+
+.union_question_status {
+    margin-bottom: 5%;
+    padding-bottom: 1%;
+}
+
+.survey {
+    text-align: left;
+    padding: 1%;
+    font-size: 20px;
+    font-weight: bolder;
+    margin-left: 1%;
+}
+
+.percent-ipr {
+	border: solid 0px;
+	padding-top: 0.2%;
+    position: absolute;
+    background: #FFFFFF;
+    width: 10%;
+    margin-left: 1%;
+}
+
+.p-div {
+    position: relative;
+    float: right;
+    width: 20%;
+}
+
+.union_ipr {
+    position: relative;
+    overflow: hidden;
+}
+
+.label_ipr {
+    font-family: Segoe UI;
+    text-align: left;
+    padding-top: 10%;
+}
+
+.persent_question_ipr {
+    width: 50%;
+    border: solid 1px gray;
+    border-radius: 5px;
+    float: left;
+    margin-top: 5%;
+}
+
+.persent_finish_ipr {
+    border: solid 0px;
+    position: absolute;
+    background: #FFFFFF;
+    width: 30%;
+    margin-left: 5%;
+    margin-top: 6%;
+}
+
+.button {
+	width: 20%;
+	font-size: 14px;
+	font-family: Segoe UI;
+	border-radius: 10px;
+	background: #20B2AA;
+	margin-right: 1%;
+	padding: 0.5%;
+	float: right;
+}

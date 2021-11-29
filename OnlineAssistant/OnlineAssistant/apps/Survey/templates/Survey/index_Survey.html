@@ -29,6 +29,7 @@
 		data["user"] = '{{ user }}';
 		data["survey"] = '{{ survey }}';
 		data["right_answer"] = elem.name;
+		data["level"] = '{{ level }}';
 		console.log(data);
 		list[question] = JSON.stringify(data)
 		console.log(list);
@@ -53,17 +54,16 @@
     	</center>
 	</div>
 
-	{% for el in data %}
-		{% for question, answers in el.items %}
-			<div class="question-form">
-				<h3><font face="corbel">{{ question.text_question }}</font></h3>
-				{% for answer in answers %}
-					<p><input type="submit" class="answer-button" value="{{ answer.text_answer }}" onclick="change_color(this, '{{question}}')" name="{{ question.id_right_answer }}"/></p>
-				{% endfor %}
-			</div>
-		{% endfor %}
+	{% for question, answers in data.items %}
+		<div class="question-form">
+			<h3><font face="corbel">{{ question.text_question }}</font></h3>
+			{% for answer in answers %}
+				<p><input type="submit" class="answer-button" value="{{ answer.text_answer }}" onclick="change_color(this, '{{question}}')" name="{{ question.id_right_answer }}"/></p>
+			{% endfor %}
+		</div>
 	{% endfor %}
 
+	{% if data %}
 	<center>
 		<form action="{% url 'index_end_Survey' %}" method="POST">
 			{% csrf_token %}
@@ -71,6 +71,7 @@
 			<input type="hidden" name="user" value="{{ user }}">
 		</form>
 	</center>
+	{% endif %}
 
 </body>
 </html>

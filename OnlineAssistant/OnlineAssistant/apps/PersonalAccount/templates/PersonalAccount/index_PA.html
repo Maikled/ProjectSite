@@ -16,28 +16,9 @@
 	<title>Личный кабинет администратора</title>
 {% endif %}
 
-
 <head>
-	<script>
-		async function send(csrftoken, data){
-		await fetch('{% url 'reply' %}',
-				{ body: JSON.stringify(list),
-				  method: 'POST',
-				  headers: { 'X-CSRFToken': csrftoken,
-				  			 'Content-Type': 'application/json;charset=utf-8' } });
-		}
 
-	</script>
-
-	<style>
-		.progress {
-			width: {{progress_ipr}}%;
-			padding-bottom: 14%;
-			background: #20B2AA;
-			margin: 0%;
-		}
-	</style>
-
+</head>
 
 <body>
 	<meta charset="UTF-8">
@@ -57,7 +38,7 @@
 			<div class="user-info-topic">
 				<p><label><font face="Segoe UI">Фамилия:</font></label></p>
 				<p><label><font face="Segoe UI">Имя:</font></label></p>
-				<p><label><font face="Segoe UI">Отчетство:</font></label></p>
+				<p><label><font face="Segoe UI">Отчество:</font></label></p>
 				<p><label><font face="Segoe UI">Дата рождения:</font></label></p>
 				<p><label><font face="Segoe UI">Пол:</font></label></p>
 				<p><label><font face="Segoe UI">Должность:</font></label></p>
@@ -81,50 +62,56 @@
 					{% csrf_token %}
 					<p><input class="button" type="submit" value="Пройти квалификационный опрос" name="enter"/></p>
 					<input type="hidden" name="id" value="{{ user.aut.id }}">
+					<input type="hidden" name="level" value="{{ user.level }}">
 				</form>
 			</center>
 		</div>
 
-		<div class="block">
-			<center>
-				<h2><font face = "corbel">Индивидуальные программы развития</font></h2>
-			</center>
-			{% for key, value in user_ipr.items %}
-				<div class="ipr_div">
-					<form name="ИПР" action="{% url 'ipr' %}" method="POST" onclick="">
-						{% csrf_token %}
-						<input class="inputs" type="submit" value="{{ key }}">
-						<div class="p-div">
-							<div class="progress"></div>
-						</div>
-						<input class="percent-ipr" placeholder="{{progress_ipr}} %" disabled>
-						<input type="hidden" name="id" value="{{ user.aut.id }}">
-						<input type="hidden" name="data_key" value="{{ key }}">
-						<input type="hidden" name="data_value" value="{{ value }}">
-					</form>
-				</div>
-			{% endfor %}
-		</div>
-
-<!--		<div class="block">-->
-<!--			<form name="Ссылки" action="" method=""  id="">-->
-<!--				<center>-->
-<!--					<h2><font face = "corbel"> Ссылки на материалы:</font></h2>-->
-<!--				</center>-->
-<!--				<input class="inputs" type="text" placeholder="Ссылки" readonly>-->
-<!--			</form>-->
-<!--		</div>-->
+		{% if user_ipr %}
+			<div class="block">
+				<center>
+					<h2><font face = "corbel">Индивидуальные программы развития</font></h2>
+				</center>
+				{% for key, value in user_ipr.items %}
+					<div class="ipr_div">
+						<form name="ИПР" action="{% url 'ipr' %}" method="POST" onclick="">
+							{% csrf_token %}
+							<input class="inputs" type="submit" value="{{ key }}">
+							<div class="p-div">
+								<div style="width: {{value}}%; padding-bottom: 14%; background: #20B2AA; margin: 0%;"></div>
+							</div>
+							<input class="percent-ipr" placeholder="{{value}} %" disabled>
+							<input type="hidden" name="id" value="{{ user.aut.id }}">
+							<input type="hidden" name="data_key" value="{{ key }}">
+							<input type="hidden" name="data_value" value="{{ value }}">
+						</form>
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<div class="block">
+				<center>
+					<h4><font face = "Segoe UI">Пройдите опрос, чтобы сформировать индивидуальную программу развития</font></h4>
+				</center>
+			</div>
+		{% endif %}
 	{% endif %}
 
 	{% if user_type == "manager" %}
 		<div class="block">
-			<form name="СИПР" action="">
+			<form name="СИПР" action="{% url 'personal_task' %}" method="POST">
+				{% csrf_token %}
 				<center>
 					<h2><font face = "corbel"> Список всех ИПР сотрудников с их прогрессами:</font></h2>
 				</center>
-				{% for el in all_employees %}
-<!--				<input class="inputs" placeholder="Список всех ИПР сотрудников с их прогрессами:" readonly>-->
-					<input class="survey" value="{{ el.firstname }} {{ el.lastname }} - {{ el.position }}" type="submit" disabled>
+				{% for el, status in data_of_employees.items %}
+					{% if status %}
+					<input class="survey" value="{{ el.firstname }} {{ el.lastname }} - {{ el.position }}" type="submit" name="{{el.id}}">
+					<input type="hidden" name="employee" value="{{el.id}}">
+					{% else %}
+					<input class="survey" value="{{ el.firstname }} {{ el.lastname }} - {{ el.position }}" type="submit" name="{{el.id}}" disabled>
+					<input type="hidden" name="employee" value="{{el.id}}">
+					{% endif %}
 				{% endfor %}
 			</form>
 		</div>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+
+<meta charset="UTF-8">
+<link type="text/css" rel="stylesheet" href="{% static 'css/style_personal_task.css' %}"/>
+
+<head>
+
+</head>
+
+<body>
+<center>
+    <div class="monitoring">
+        <div class="info">
+            <div class="personal">
+                <div class="personal_info">
+                    <label><font face="Segoe UI">{{data_of_employee.firstname}}</font></label>
+                    <label><font face="Segoe UI">{{data_of_employee.lastname}}</font></label>
+                    <label><font face="Segoe UI">{{data_of_employee.patronymic}}</font></label>
+                </div>
+                <div class="personal_status">
+                    <label><font face="Segoe UI">{{pretend}}</font></label>
+                </div>
+            </div>
+            <div class="label">
+                <span>Общий прогресс индивидуальной программы развития</span>
+            </div>
+            <div class="persent_finish">
+                <div style="width: {{persent_finish}}%; background: #20B2AA; margin: 0%; padding-bottom: 14%; border-bottom-left-radius: 5px; border-top-left-radius: 5px;"></div>
+            </div>
+            <input class="percent-ipr" placeholder="{{persent_finish}} %" disabled>
+        </div>
+
+
+        {% for key, value in data_of_ipr.items %}
+        <div class="union_ipr">
+            <div class="ipr">
+                <div class="survey">
+                    <label><font face="Segoe UI">{{key}}</font></label>
+                </div>
+                {% for count, element in value.items %}
+                    {% for el in element %}
+                        {% for question, status in el.items %}
+                        <div class="union_question_status">
+                            <div class="question">
+                                <label><font face="Segoe UI">{{question}}</font></label>
+                            </div>
+                            <div class="status">
+                                {% if status == '1' %}
+                                <div class="status-true">
+                                    <label><font face="Segoe UI">Изучен</font></label>
+                                </div>
+                                {% else %}
+                                <div class="status-false">
+                                    <label><font face="Segoe UI">Не изучен</font></label>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="p-div">
+                    <div class="label_ipr">
+                        <span>Прогресс {{key}}</span>
+                    </div>
+                    <div class="persent_question_ipr">
+                        <div style="width: {{count}}%; background: #20B2AA; margin: 0%; padding-bottom: 14%; border-bottom-left-radius: 5px; border-top-left-radius: 5px;"></div>
+                    </div>
+                    <input class="persent_finish_ipr" placeholder="{{count}} %" disabled>
+                </div>
+                {% endfor %}
+        </div>
+        {% endfor %}
+        <div class="union_ipr">
+            <form action="{% url 'create_PDF' %}">
+                {% csrf_token %}
+                <input class="button" type="hidden" value="Сформировать отчёт">
+            </form>
+        </div>
+    </div>
+</center>
+
+</body>
+
+</html>

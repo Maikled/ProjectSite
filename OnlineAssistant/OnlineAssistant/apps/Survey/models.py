@@ -1,6 +1,4 @@
 from django.db import models
-from Authentication.models import Employee
-
 
 # Create your models here.
 class Survey(models.Model):
@@ -16,6 +14,7 @@ class Question(models.Model):
     material_link = models.TextField('materials_link', null=True, blank=True)
     id_survey = models.ForeignKey('Survey', on_delete=models.CASCADE, null=True, blank=True)
     id_right_answer = models.ForeignKey('Answer', on_delete=models.CASCADE, null=True, blank=True)
+    level = models.IntegerField('level', null=True)
 
     def __str__(self):
         return self.text_question
@@ -35,4 +34,5 @@ class Log(models.Model):
     question = models.TextField('question', null=True, blank=True)
     answer = models.TextField('answer', null=True, blank=True)
     right_answer = models.TextField('right_answer', null=True, blank=True)
+    level = models.IntegerField('level', null=True)
 

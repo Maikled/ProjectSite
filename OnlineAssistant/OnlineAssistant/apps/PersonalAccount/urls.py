@@ -8,4 +8,5 @@ urlpatterns = [
     path('ipr', views.ipr, name='ipr'),
     path('href', views.href, name='href'),
     path('index_Survey', index_Survey, name='index_Survey'),
+    path('personal_task', views.personal_task_of_employes, name='personal_task'),
 ]

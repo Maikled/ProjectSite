@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from .models import Survey, Question, Answer, Log
-from Authentication.models import Authentication
+from Authentication.models import Authentication, Employee
 import PersonalAccount
 from json import loads
 
@@ -9,21 +9,28 @@ from json import loads
 
 def list_of_Surveys(request):
     user_id = request.POST.get('id')
-    data_Surveys = Survey.objects.all()
-    data_Log = Log.objects.filter(user=user_id)
+    user = Employee.objects.get(aut_id=user_id)
 
+    data_Surveys = Survey.objects.all()
+    surveys = []
+    for el in data_Surveys:
+        if Question.objects.filter(id_survey=el.id, level=user.level+1):
+            surveys.append(el)
+
+    data_Log = Log.objects.filter(user=user_id)
     user_logs = []
     for el in data_Log:
         user_logs.append(el.survey)
 
-    return render(request, 'Survey/index_list_of_Surveys.html', {'data_Surveys':data_Surveys, 'user':user_id, 'user_logs':user_logs})
+    return render(request, 'Survey/index_list_of_Surveys.html', {'data_Surveys':surveys, 'user_id':user_id, 'user_logs':user_logs, 'level':user.level})
 
 
 def index_Survey(request):
     survey_id = request.GET.get('id_Survey')
-    user = request.GET.get('user')
+    user_id = request.GET.get('user_id')
+    user_level = request.GET.get('level')
     data_Survey = Survey.objects.get(id=survey_id)
-    data_Question = Question.objects.filter(id_survey_id=data_Survey.id)
+    data_Question = Question.objects.filter(id_survey_id=data_Survey.id, level=(int(user_level)+1))
 
     data = {}
     data_right_answer = {}
@@ -31,7 +38,7 @@ def index_Survey(request):
         data[question] = Answer.objects.filter(id_question_id=question.id)
         data_right_answer[question] = question.id_right_answer
 
-    return render(request, 'Survey/index_Survey.html', {'title_Survey':data_Survey, 'data':[data], 'right_answers':data_right_answer, 'survey':data_Survey, 'user':user})
+    return render(request, 'Survey/index_Survey.html', {'title_Survey':data_Survey, 'data':data, 'right_answers':data_right_answer, 'survey':data_Survey, 'user':user_id, 'level':user_level})
 
 
 def reply(request):
@@ -43,6 +50,7 @@ def reply(request):
         answer = fields.get('answer')
         survey = fields.get('survey')
         user_id = fields.get('user')
+        user_level = fields.get('level')
         right_answer = fields.get('right_answer')
 
         log = Log()
@@ -51,8 +59,10 @@ def reply(request):
         log.question = question
         log.answer = answer
         log.right_answer = right_answer
+        log.level = int(user_level)
         log.save()
 
+        print(user_level)
     return HttpResponse(request)
 
 
