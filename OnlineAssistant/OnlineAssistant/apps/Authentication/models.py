@@ -18,6 +18,7 @@ class Admin(models.Model):
     gender = models.CharField('gender', max_length=16)
     position = models.CharField('position', max_length=100, null=True)
     aut = models.ForeignKey('Authentication', on_delete=models.PROTECT, null=True)
+    link_to_photo = models.TextField('link_to_photo', null=True, blank=True)
 
     def __str__(self):
         return ' '.join([self.firstname, ' ', self.lastname])
@@ -31,6 +32,7 @@ class Manager(models.Model):
     gender = models.CharField('gender', max_length=16)
     position = models.CharField('position', max_length=100, null=True)
     aut = models.ForeignKey('Authentication', on_delete=models.PROTECT, null=True)
+    link_to_photo = models.TextField('link_to_photo', null=True, blank=True)
 
     def __str__(self):
         return ' '.join([self.firstname, ' ', self.lastname])
@@ -46,6 +48,7 @@ class Employee(models.Model):
     level = models.IntegerField('level', null=True)
     idmanager = models.ForeignKey('Manager', on_delete=models.PROTECT, null=True)
     aut = models.ForeignKey('Authentication', on_delete=models.PROTECT, null=True)
+    link_to_photo = models.TextField('link_to_photo', null=True, blank=True)
 
     def __str__(self):
         return ' '.join([self.firstname, ' ', self.lastname, ' - ', self.position])

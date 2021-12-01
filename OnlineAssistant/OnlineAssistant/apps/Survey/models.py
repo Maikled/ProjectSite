@@ -9,7 +9,7 @@ class Survey(models.Model):
 
 
 class Question(models.Model):
-    text_question = models.CharField('text_question', max_length=250)
+    text_question = models.TextField('text_question', null=True, blank=True)
     question_topic = models.TextField('question_topic', null=True, blank=True)
     material_link = models.TextField('materials_link', null=True, blank=True)
     id_survey = models.ForeignKey('Survey', on_delete=models.CASCADE, null=True, blank=True)

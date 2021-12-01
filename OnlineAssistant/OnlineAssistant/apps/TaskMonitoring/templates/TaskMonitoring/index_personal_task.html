@@ -48,7 +48,7 @@
                                 <label><font face="Segoe UI">{{question}}</font></label>
                             </div>
                             <div class="status">
-                                {% if status == '1' %}
+                                {% if status == 1 %}
                                 <div class="status-true">
                                     <label><font face="Segoe UI">Изучен</font></label>
                                 </div>
@@ -75,9 +75,8 @@
         </div>
         {% endfor %}
         <div class="union_ipr">
-            <form action="{% url 'create_PDF' %}">
-                {% csrf_token %}
-                <input class="button" type="hidden" value="Сформировать отчёт">
+            <form action="{% url 'create_document' %}">
+                <input class="button" type="submit" value="Сформировать отчёт">
             </form>
         </div>
     </div>

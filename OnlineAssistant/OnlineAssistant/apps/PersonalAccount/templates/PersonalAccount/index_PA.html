@@ -25,7 +25,11 @@
 
 	<div>
 		<div>
-			<input class="photo" type="image" src="{% static 'image/user.png' %}" alt="" formenctype="multipart/form-data"/>
+			{% if user.link_to_photo %}
+				<input class="photo" type="image" src="{{user.link_to_photo}}" alt="" formenctype="multipart/form-data"/>
+			{% else %}
+				<input class="photo" type="image" src="{% static 'image/user.png' %}" alt="" formenctype="multipart/form-data"/>
+			{% endif %}
 		</div>
 
 		<div class="block">
@@ -99,21 +103,21 @@
 
 	{% if user_type == "manager" %}
 		<div class="block">
+			<center>
+				<h2><font face = "corbel"> Список всех ИПР сотрудников с их прогрессами:</font></h2>
+			</center>
+			{% for el, status in data_of_employees.items %}
 			<form name="СИПР" action="{% url 'personal_task' %}" method="POST">
 				{% csrf_token %}
-				<center>
-					<h2><font face = "corbel"> Список всех ИПР сотрудников с их прогрессами:</font></h2>
-				</center>
-				{% for el, status in data_of_employees.items %}
-					{% if status %}
-					<input class="survey" value="{{ el.firstname }} {{ el.lastname }} - {{ el.position }}" type="submit" name="{{el.id}}">
-					<input type="hidden" name="employee" value="{{el.id}}">
-					{% else %}
-					<input class="survey" value="{{ el.firstname }} {{ el.lastname }} - {{ el.position }}" type="submit" name="{{el.id}}" disabled>
-					<input type="hidden" name="employee" value="{{el.id}}">
-					{% endif %}
-				{% endfor %}
+				{% if status %}
+				<input class="survey" value="{{ el.firstname }} {{ el.lastname }} - {{ el.position }}" type="submit" name="{{el.id}}">
+				<input type="hidden" name="employee" value="{{el.aut_id}}">
+				{% else %}
+				<input class="survey" value="{{ el.firstname }} {{ el.lastname }} - {{ el.position }}" type="submit" name="{{el.id}}" disabled>
+				<input type="hidden" name="employee" value="{{el.aut_id}}">
+				{% endif %}
 			</form>
+			{% endfor %}
 		</div>
 	{% endif %}
 

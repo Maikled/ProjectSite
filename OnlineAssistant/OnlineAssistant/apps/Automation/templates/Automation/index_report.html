@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <style>
+        .label {
+            font-family: Segoe UI;
+            font-size: 20px;
+            font-weight: bolder;
+            margin-left: auto;
+            margin-right: auto;
+            width: 6em;
+        }
+        .text {
+            font-family: Segoe UI;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <p><label class="label" style="font-size: 36px;">{{data_of_employee.firstname}} {{data_of_employee.lastname}} {{data_of_employee.patronymic}}</label></p>
+    <p><label class="label">{{pretend}}</label></p>
+    <br>
+
+    {% for key, value in data_of_ipr.items %}
+        <p><label class="label">{{key}}</label></p>
+        {% for count, element in value.items %}
+            <table>
+            {% for el in element %}
+                {% for question, status in el.items %}
+                <tr><td style="width: 700px;"><label class="text">{{question}}</label></td>
+                    <td style="width: 80px;"></td>
+                {% if status == 1 %}
+                    <td style="float: right;"><label class="text">Изучен</label></td>
+                {% else %}
+                    <td style="float: right;"><label class="text">Не изучен</label></td>
+                {% endif %}
+                </tr>
+                {% endfor %}
+            {% endfor %}
+            </table>
+            <p><em><label class="text" style="font-size: 14px;">Прогресс изучения материала: {{count}} %</label></em></p><br>
+        {% endfor %}
+    {% endfor %}
+    <br><p><label class="text" style="float: right;">Общий прогресс выполнения: {{persent_finish}} %</label></p>
+
+    <br><br><br><br><p><label class="text" style="float: right;">Отчёт создан</label></p><br>
+    <p><label class="text" style="float: right;">{{date}} в {{time}}</label></p>
+</body>
+
+</html>

@@ -42,7 +42,7 @@ def ipr(request):
 def href(request):
     data = json.loads(request.body)
     task = IPR.objects.get(text_task=data)
-    task.status = 'true'
+    task.status = 1
     task.save()
 
     return HttpResponse(request)

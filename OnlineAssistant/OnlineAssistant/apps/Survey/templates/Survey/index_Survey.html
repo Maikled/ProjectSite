@@ -56,7 +56,7 @@
 
 	{% for question, answers in data.items %}
 		<div class="question-form">
-			<h3><font face="corbel">{{ question.text_question }}</font></h3>
+			<h3><font face="Segoe UI">{{ question.text_question }}</font></h3>
 			{% for answer in answers %}
 				<p><input type="submit" class="answer-button" value="{{ answer.text_answer }}" onclick="change_color(this, '{{question}}')" name="{{ question.id_right_answer }}"/></p>
 			{% endfor %}

@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('create_PDF', views.create_PDF, name='create_PDF'),
+    path('create_document', views.create_document, name='create_document'),
 ]

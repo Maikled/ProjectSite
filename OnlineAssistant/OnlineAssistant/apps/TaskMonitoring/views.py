@@ -2,10 +2,7 @@ from django.shortcuts import render
 from Survey.models import Log, Question
 from .models import IPR
 from Authentication.models import Employee
-
-from django.http import HttpResponse
-from django.template.loader import get_template, render_to_string
-import pdfkit
+from Automation.views import create_PDF
 
 data_personal_task = {}
 
@@ -16,7 +13,7 @@ def progress_of_ipr(user_id):
     if data:
         count_complited_tasks = 0
         for elem in data:
-            if elem.status == '1':
+            if elem.status == 1:
                 count_complited_tasks += 1
 
         return round((count_complited_tasks * 100) / len(data))
@@ -35,7 +32,7 @@ def check_user(user_id):
             ipr.user_id = user_id
             ipr.topic_survey = elem.survey
             ipr.text_task = elem.question
-            ipr.status = '0'
+            ipr.status = 0
             ipr.save()
 
     data = {}
@@ -57,7 +54,7 @@ def index_TM(request):
     for key, value in tasks.items():
         dict_of_task[key] = {el:value for el in Question.objects.filter(text_question=key)}
         f += 1
-        if value == '1':
+        if value == 1:
             t += 1
 
     return render(request, 'PersonalAccount/index_IPR.html', {'title':survey, 'tasks':dict_of_task, 'status_task':tasks, 'status':f'{t}/{f}'})
@@ -65,7 +62,7 @@ def index_TM(request):
 
 def personal_task(request):
     data_of_employee = request.POST.get('employee')
-
+    print(data_of_employee)
     data_of_employee = Employee.objects.get(aut_id=data_of_employee)
     ipr_of_employee = IPR.objects.filter(user_id=data_of_employee.id)
 
@@ -93,14 +90,6 @@ def personal_task(request):
     return render(request, 'TaskMonitoring/index_personal_task.html', {'data_of_employee':data_of_employee, 'data_of_ipr':data_of_ipr, 'pretend':next_level, 'persent_finish':round(persent_finish)})
 
 
-def create_PDF(request):
+def create_document(request):
     global data_personal_task
-    path_wk = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'  # Место установки
-    config = pdfkit.configuration(wkhtmltopdf=path_wk)
-    html_template = render_to_string('TaskMonitoring/index_personal_task.html', data_personal_task)
-    pdf = pdfkit.from_string(html_template, 'out.pdf', configuration=config)
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-
-    return response
-
+    return create_PDF(request, data_personal_task)
