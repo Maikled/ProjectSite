@@ -45,7 +45,8 @@ def reply(request):
     data = loads(request.body)
     # Log.objects.all().delete()
     for key in data:
-        question = key
+        question_id = key
+        question = Question.objects.get(id=question_id)
         fields = loads(data.get(key))
         answer = fields.get('answer')
         survey = fields.get('survey')
@@ -56,7 +57,7 @@ def reply(request):
         log = Log()
         log.survey = survey
         log.user = user_id
-        log.question = question
+        log.question = question.text_question
         log.answer = answer
         log.right_answer = right_answer
         log.level = int(user_level)
@@ -75,3 +76,7 @@ def back_to_PA(request):
     user_id = request.POST.get('user')
     authentication_user = Authentication.objects.get(id=user_id)
     return PersonalAccount.views.index_PA(request, authentication_user)
+
+
+def editor_of_survey(request):
+    return render(request, 'Survey/index_editor.html')

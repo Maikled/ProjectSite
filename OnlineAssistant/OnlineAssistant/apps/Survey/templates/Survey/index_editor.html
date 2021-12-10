@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html> 
+<head>
+	<meta charset="UTF-8">
+	<link type="text/css" rel="stylesheet" href="{% static 'css/style_editor.css' %}"/>
+</head>
+
+<script>
+	var x = -1;
+
+	function add_answer(){
+		x++;
+		var str = '<div class="div-answer">' +
+						'<input class="answer-text" type="text" placeholder="Вариант ответа">' +
+						'<input class="" type="button" value="X">' +
+					'</div><br>' +
+					'<div id="answer' + (x + 1) + '"></div>';
+		console.log(str);
+		document.getElementById('answer'+x).innerHTML = str;
+	}
+
+	function add_question(){
+		x++;
+		var str = '<div class ="block-question">' +
+			'<div class="div-delete-question">' +
+				'<input class="button-delete-question" type="button" value="X">' +
+			'</div><br>'+
+
+			'<p><input class="question-text" type="text" placeholder="Текст вопроса"></p>'+
+
+
+			'<div class="div-answer">'+
+					'<input class="answer-text" type="text" placeholder="Вариант ответа">'+
+					'<input class="" type="button" value="X">'+
+			'</div><br>'+
+
+			'<div id="answer0"></div>'+
+
+			'<div class="div-add-answer">'+
+				'<p><input class="add-answer-button" onclick="add_answer()" type="button" value="Добавить вариант ответа"></p>'+
+			'</div>'+
+		'</div>' +
+					'<div id="question' + (x + 1) + '"></div>';
+		console.log(str);
+		document.getElementById('question'+x).innerHTML = str;
+	}
+</script>
+
+
+<body>
+	<center>
+		<div class ="block-question">
+			<div class="div-delete-question">
+				<input class="button-delete-question" type="button" value="X">
+			</div><br>
+
+			<p><input class="question-text" type="text" placeholder="Текст вопроса"></p>
+
+
+			<div class="div-answer">
+					<input class="answer-text" type="text" placeholder="Вариант ответа">
+					<input class="" type="button" value="X">
+			</div><br>
+
+			<div id="answer0"></div>
+
+			<div class="div-add-answer">
+				<p><input class="add-answer-button" onclick="add_answer()" type="button" value="Добавить вариант ответа"></p>
+			</div>
+		</div>
+
+		<div id="question0"></div>
+
+		<div class="div-add-question">
+			<input class="button-add-question" type="button" value="Добавить вопрос" onclick="add_question()">
+		</div>
+	</center>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from Survey.views import index_Survey
+from Survey.views import index_Survey, editor_of_survey
 from . import views
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('href', views.href, name='href'),
     path('index_Survey', index_Survey, name='index_Survey'),
     path('personal_task', views.personal_task_of_employes, name='personal_task'),
+    path('editor_of_survey', editor_of_survey, name='editor_of_survey'),
 ]

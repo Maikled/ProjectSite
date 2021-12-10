@@ -52,7 +52,8 @@ def index_TM(request):
     t = 0
     f = 0
     for key, value in tasks.items():
-        dict_of_task[key] = {el:value for el in Question.objects.filter(text_question=key)}
+        question = Question.objects.get(text_question=key)
+        dict_of_task[question] = {el:value for el in Question.objects.filter(text_question=key)}
         f += 1
         if value == 1:
             t += 1

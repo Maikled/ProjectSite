@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from Authentication.models import Admin, Manager, Employee
 from Survey.views import list_of_Surveys
-from Survey.models import Survey
+from Survey.models import Survey, Question
 from TaskMonitoring.views import check_user, index_TM, progress_of_ipr, personal_task
 from TaskMonitoring.models import IPR
 import json
@@ -40,8 +40,11 @@ def ipr(request):
 
 
 def href(request):
+    print('sgnsnrgkskg')
     data = json.loads(request.body)
-    task = IPR.objects.get(text_task=data)
+    print(data)
+    data = Question.objects.get(id=data)
+    task = IPR.objects.get(text_task=data.text_question)
     task.status = 1
     task.save()
 

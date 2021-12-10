@@ -1,0 +1,129 @@
+body {
+    background-image: url('bg.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.block-question {
+    position: relative;
+    background-color: #FFFFFF;
+    width: 50%;
+    margin-top: 5%;
+    padding: 0%;
+    border-radius: 10px;
+}
+
+.button-delete-question {
+    margin: 0%
+    padding: 0.5%;
+    background-color: #20B2AA;
+    border-top-right-radius: 10px;
+    border: 1px solid;
+}
+
+.div-delete-question {
+    position: relative;
+    float: right;
+}
+
+.question-text {
+    width: 90%;
+    padding: 1%;
+    border-radius: 10px;
+    border: 1px solid lightgray;
+}
+
+.div-answer {
+    position: relative;
+    overflow: hidden;
+}
+
+.answer-text {
+    width: 80%;
+    padding: 1%;
+    border-radius: 10px;
+    border: 1px solid lightgray;
+}
+
+.add-answer-button {
+    float: right;
+}
+
+.div-add-answer {
+    position: relative;
+    overflow: hidden;
+    right: 5%;
+    padding-bottom: 3%;
+}
+
+.button-add-question {
+    background-color: #20B2AA;
+    padding: 0.5%;
+    width: 20%;
+    border-radius: 10px;
+    float: left;
+}
+
+.div-add-question {
+    position: relative;
+    width: 50%;
+    padding: 1%;
+}
+
+
+.button1 {
+	position: absolute;
+	top: 40%;
+	left: 29.5%;
+	margin-top: 30px;
+	width: 13%;
+	height: 4%;
+	font-size: 14px;
+	font-weight: normal;
+	color: #000000;
+	background: #20B2AA;
+	border-radius: 20px;
+}
+.button2 {
+	position: absolute;
+	top: -17%;
+	left: 96%;
+	margin-top: 30px;
+	width: 4%;
+	height: 14%;
+	font-size: 14px;
+	font-weight: normal;
+	color: #000000;
+	background: #20B2AA;
+	border-radius: 0px 10px 0px 0; 
+}
+.button3 {
+	position: absolute;
+	top: 48%;
+	left: 5%;
+	margin-top: 30px;
+	width: 27%;
+	height: 14%;
+	font-size: 14px;
+	font-weight: normal;
+	color: #000000;
+	background: #DCDCDC;
+	border-radius: 30px;
+	opacity: .8;
+	border-radius: 20px;
+}
+.button4 {
+	position: absolute;
+	top: 24%;
+	left: 90%;
+	margin-top: 30px;
+	width: 5%;
+	height: 16%;
+	font-size: 14px;
+	font-weight: normal;
+	color: #000000;
+	background: #DCDCDC;
+	opacity: .8;
+	border-radius: 20px;
+}

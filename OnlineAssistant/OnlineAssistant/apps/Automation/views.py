@@ -1,9 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.template.loader import get_template, render_to_string
+from django.template.loader import render_to_string
 import pdfkit
 import datetime
-import os
 from django.http import FileResponse
 
 # Create your views here.

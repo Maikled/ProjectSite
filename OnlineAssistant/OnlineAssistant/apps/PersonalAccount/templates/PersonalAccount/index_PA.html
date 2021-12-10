@@ -135,8 +135,11 @@
 				</form>
 			{% endfor %}
 			</form>
+
+			<form action="{% url 'editor_of_survey' %}">
+			<p><input class="button" type="submit" value="Создать опрос" name="enter"/></p>
+			</form>
 		</div>
 	{% endif %}
-
 </body>
 </html>
