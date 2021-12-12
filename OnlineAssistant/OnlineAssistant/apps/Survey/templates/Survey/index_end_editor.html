@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+
+<head>
+
+	<meta charset="UTF-8">
+	<title>Онлайн помошник</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style_end_Survey.css' %}">
+
+</head>
+
+<body>
+
+    <div class="login-form">
+      	<center>
+			<form action="{% url 'back_to_PA' %}" method="POST">
+				{% csrf_token %}
+				<h2><font face = "corbel"> Квалификационный опрос </font></h2>
+				<font face = "corbel">Ваши правки сохранены.</font> <br>
+				<input type="submit" name="enter" value="Вернуться в личный кабинет" class="back-button"/>
+				<input type="hidden" name="user" value="{{ user_id }}">
+			</form>
+		</center>
+    </div>
+
+</body>
+</html>

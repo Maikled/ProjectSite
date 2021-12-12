@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .models import Survey, Question, Answer, Log
 from Authentication.models import Authentication, Employee
 import PersonalAccount
@@ -63,7 +63,6 @@ def reply(request):
         log.level = int(user_level)
         log.save()
 
-        print(user_level)
     return HttpResponse(request)
 
 
@@ -79,4 +78,72 @@ def back_to_PA(request):
 
 
 def editor_of_survey(request):
-    return render(request, 'Survey/index_editor.html')
+    user = request.GET.get('user_id')
+    data = {}
+
+    id_survey = request.GET.get('id_Survey')
+    if id_survey:
+        survey = Survey.objects.get(id=id_survey)
+        data['survey_name'] = survey.survey_topic
+
+        questions = Question.objects.filter(id_survey_id=survey.id)
+        data['questions'] = {}
+
+        for question in questions:
+            data['questions'][question] = Answer.objects.filter(id_question_id=question.id)
+
+        return render(request, 'Survey/index_editor.html', {'data':data, 'user':user})
+    else:
+        return render(request, 'Survey/index_editor.html', {'data':{'questions':{'create':''}}, 'user':user})
+
+def save_Survey(request):
+    data = loads(request.body)
+
+    survey = Survey()
+    survey_name = data['survey_name']
+    # try:
+    #     s = Survey.objects.get(survey_topic=survey_name)
+    #     s.delete()
+    # except:
+    #     pass
+    survey.survey_topic = survey_name
+    survey.save()
+
+    for key_question, value_question in data['data'].items():
+        question = Question()
+        text_of_question = key_question
+        # try:
+        #     q = Question.objects.get(text_question=text_of_question)
+        #     q.delete()
+        # except:
+        #     pass
+        question.text_question = text_of_question
+        question.id_survey = survey
+        question.save()
+
+        for key_answer, value_answer in value_question['answers'].items():
+            answer = Answer()
+            answer_text = key_answer
+            # try:
+            #     q = Answer.objects.get(text_answer=answer_text)
+            #     q.delete()
+            # except:
+            #     pass
+            answer.text_answer = answer_text
+            answer.id_question = question
+            answer.save()
+            if value_answer == True:
+                question.id_right_answer = answer
+
+        for key_info, value_info in value_question['info'].items():
+            question.question_topic = key_info
+            question.material_link = value_info
+
+        question.level = int(value_question['level'])
+        question.save()
+
+    return HttpResponse(request)
+
+def index_end_editor(request):
+    user = request.POST.get('user')
+    return render(request, 'Survey/index_end_editor.html', {'user_id':user})

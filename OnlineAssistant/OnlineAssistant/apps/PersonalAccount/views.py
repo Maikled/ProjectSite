@@ -40,9 +40,7 @@ def ipr(request):
 
 
 def href(request):
-    print('sgnsnrgkskg')
     data = json.loads(request.body)
-    print(data)
     data = Question.objects.get(id=data)
     task = IPR.objects.get(text_task=data.text_question)
     task.status = 1

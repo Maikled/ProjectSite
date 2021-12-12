@@ -10,6 +10,13 @@
 
 <script>
 	var x = -1;
+	var y = -1;
+	var count_elements = 1;
+
+	function delete_element(elem) {
+		elem.parentElement.parentElement.remove();
+		count_elements--;
+	}
 
 	function add_answer(){
 		x++;
@@ -20,63 +27,174 @@
 					'<div id="answer' + (x + 1) + '"></div>';
 		console.log(str);
 		document.getElementById('answer'+x).innerHTML = str;
+
 	}
 
-	function add_question(){
-		x++;
-		var str = '<div class ="block-question">' +
-			'<div class="div-delete-question">' +
-				'<input class="button-delete-question" type="button" value="X">' +
-			'</div><br>'+
+	async function add_question(){
+		y++;
+		b = document.getElementById('block'+y);
+		elem = document.getElementById('question'+y)
+		elem.innerHTML = b.outerHTML + '<div id="question' + (y + 1) + '"></div>';
+		count_elements++;
+		elem.id = 'block'+(y+1);
+		quest = elem.querySelectorAll(".question-text");
+		quest.name = 'q'+(y+1);
+		answ = elem.querySelectorAll(".radio")
+		for (var i = 0; i < answ.length; i++) {
+			answ[i].name = (y + 1);
+		}
+	}
 
-			'<p><input class="question-text" type="text" placeholder="Текст вопроса"></p>'+
+	async function result ()
+	{
+		const data = {};
+		survey_name = document.querySelector('.survey-text').value;
+		if (survey_name == "")
+		{
+			alert("Название опроса не может быть пустым!");
+			return false;
+		}
+		data['survey_name'] = survey_name;
 
+		questions = document.querySelectorAll('.question-text');
+		data['data'] = {};
+		for (var i = 0; i < questions.length; i++)
+		{
+			question = {};
+			info = {};
 
-			'<div class="div-answer">'+
-					'<input class="answer-text" type="text" placeholder="Вариант ответа">'+
-					'<input class="" type="button" value="X">'+
-			'</div><br>'+
+			theme = questions[i].parentNode.parentNode.querySelector('.survey_topic').value;
+			links = questions[i].parentNode.parentNode.querySelectorAll('.link');
+			for (var j = 0; j < links.length; j++)
+			{
+				info[theme] = links[j].value;
+				if (links[j].value == "")
+				{
+					alert("Поле ссылки не может быть пустым!");
+					return false;
+				}
+			}
 
-			'<div id="answer0"></div>'+
+			value_question = questions[i].value;
+			if (value_question == "")
+			{
+				alert("Поле текст вопроса не может быть пустым!");
+				return false;
+			}
 
-			'<div class="div-add-answer">'+
-				'<p><input class="add-answer-button" onclick="add_answer()" type="button" value="Добавить вариант ответа"></p>'+
-			'</div>'+
-		'</div>' +
-					'<div id="question' + (x + 1) + '"></div>';
-		console.log(str);
-		document.getElementById('question'+x).innerHTML = str;
+			answers = questions[i].parentNode.parentNode.querySelectorAll('.answer-text');
+			ans = {};
+			radios = [];
+			for (var j = 0; j < answers.length; j++)
+			{
+				answer_value = answers[j].value;
+				if (answer_value == "")
+				{
+					alert("Название варианта ответа не может быть пустым!");
+					return false;
+				}
+				radio = answers[j].parentNode.querySelector('.radio').checked;
+				radios.push(String(radio));
+				ans[answer_value] = radio;
+			}
+			if (radios.indexOf('true') == -1)
+			{
+				alert("Необходимо выбрать один правильный ответ!");
+				return false;
+			}
+
+			level = questions[i].parentNode.parentNode.querySelector('.level').value;
+			if (level == "")
+			{
+				alert("Уровень опроса не может быть пустым!");
+				return false;
+			}
+
+			question['answers'] = Object.assign({}, ans);
+			question['info'] = Object.assign({}, info);
+			question['level'] = level;
+			data['data'][value_question] = Object.assign({}, question);
+		}
+
+		await fetch('{% url 'save_Survey' %}',
+				{ body: JSON.stringify(data),
+				  method: 'POST',
+				  headers: { 'X-CSRFToken': '{{ csrf_token }}',
+				  			 'Content-Type': 'application/json;charset=utf-8'},
+				  			 'user': '{{user}}',});
 	}
 </script>
 
 
 <body>
 	<center>
-		<div class ="block-question">
+		<div class="survey_name_block">
+			<input class="survey-text" type="text" placeholder="Название опроса" name="survey_name" value="{{data.survey_name}}">
+		</div>
+
+		{% for key, value in data.questions.items %}
+		<div class ="block-question" id="block0">
 			<div class="div-delete-question">
-				<input class="button-delete-question" type="button" value="X">
+				<input class="button-delete-question" type="button" value="X" onclick="delete_element(this)">
 			</div><br>
 
-			<p><input class="question-text" type="text" placeholder="Текст вопроса"></p>
+			<p><input class="question-text" type="text" placeholder="Текст вопроса" name="q0" value="{{key}}"></p>
 
+			{% for answer in value %}
+			<div class="div-answer">
+				{% if answer == key.id_right_answer %}
+					<input name="{{key}}" type="radio" class="radio" checked>
+				{% else %}
+					<input name="{{key}}" type="radio" class="radio">
+				{% endif %}
+				<input class="answer-text" type="text" placeholder="Вариант ответа" name="00" value="{{answer}}">
+			</div><br>
+			{% endfor %}
+
+			{% if data.questions.create == '' %}
+				<div class="div-answer">
+					<input name="0" type="radio" class="radio">
+					<input class="answer-text" type="text" placeholder="Вариант ответа" name="00" value="{{answer}}">
+				</div><br>
+
+				<div class="div-answer">
+					<input name="0" type="radio" class="radio">
+					<input class="answer-text" type="text" placeholder="Вариант ответа" name="01">
+				</div><br>
+
+				<div class="div-answer">
+					<input name="0" type="radio" class="radio">
+					<input class="answer-text" type="text" placeholder="Вариант ответа" name="02">
+				</div><br>
+
+				<div class="div-answer">
+					<input name="0" type="radio" class="radio">
+					<input class="answer-text" type="text" placeholder="Вариант ответа" name="03">
+				</div><br>
+			{% endif %}
 
 			<div class="div-answer">
-					<input class="answer-text" type="text" placeholder="Вариант ответа">
-					<input class="" type="button" value="X">
-			</div><br>
-
-			<div id="answer0"></div>
-
-			<div class="div-add-answer">
-				<p><input class="add-answer-button" onclick="add_answer()" type="button" value="Добавить вариант ответа"></p>
+				<input class="level" placeholder="Уровень (1-5)" name="level_question" value="{{key.level}}">
+				<input class="survey_topic" type="text" placeholder="Тема опроса" name="survey_topic" value="{{key.question_topic}}">
+				<input class="link" type="text" placeholder="Ссылка на материал для изучения" name="link" value="{{key.material_link}}">
 			</div>
+
 		</div>
+		{% endfor %}
 
 		<div id="question0"></div>
 
 		<div class="div-add-question">
 			<input class="button-add-question" type="button" value="Добавить вопрос" onclick="add_question()">
 		</div>
+
+		<form action="{% url 'index_end_editor' %}" method="POST">
+			{% csrf_token %}
+			<div class="save">
+				<input class="button-save" type="submit" value="Сохранить опрос" onclick="result()">
+				<input type="hidden" name="user" value="{{user}}">
+			</div>
+		</form>
 	</center>
 </body>
 

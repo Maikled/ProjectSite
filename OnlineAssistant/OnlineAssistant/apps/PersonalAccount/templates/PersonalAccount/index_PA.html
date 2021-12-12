@@ -123,21 +123,20 @@
 
 	{% if user_type == "manager" or user_type == "admin" %}
 		<div class="block">
-			<form name="Список опросов" action="">
 			<center>
 				<h2><font face = "corbel"> Список всех опросов:</font></h2>
 			</center>
 			{% for el in all_surveys %}
-				<form action="{% url 'index_Survey' %}">
-					<input class="survey" value="{{ el.survey_topic }}" type="submit" disabled>
+				<form action="{% url 'editor_of_survey' %}">
+					<input class="survey" value="{{ el.survey_topic }}" type="submit">
 					<input type="hidden" value="{{ el.id }}" name="id_Survey">
-					<input type="hidden" value="{{ user.aut.id }}" name="user">
+					<input type="hidden" value="{{user.aut.id}}" name="user_id">
 				</form>
 			{% endfor %}
-			</form>
 
 			<form action="{% url 'editor_of_survey' %}">
-			<p><input class="button" type="submit" value="Создать опрос" name="enter"/></p>
+				<p><input class="button" type="submit" value="Создать опрос" name="enter"/></p>
+				<input type="hidden" value="{{user.aut.id}}" name="user_id">
 			</form>
 		</div>
 	{% endif %}
