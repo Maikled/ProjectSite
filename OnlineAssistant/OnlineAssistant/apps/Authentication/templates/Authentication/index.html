@@ -12,14 +12,14 @@
 <body>
     <div class="login-form">
 		<center>
-			<h1><font face = "corbel"> ACCOUNT LOGIN</font></h1>
+			<h1><font face = "corbel">АВТОРИЗАЦИЯ</font></h1>
 			<form name="log" action="{% url 'verification' %}" method="POST"  id="">
 				{% csrf_token %}
-				<font face = "corbel">USERNAME:</font> <br />
+				<font face = "corbel">ЛОГИН:</font> <br />
 				<input  class="inputs" type="text" name="login" size="20" maxlength="32" value="" /> <br/>
-				<font face = "corbel">PASSWORD:</font> <br />
+				<font face = "corbel">ПАРОЛЬ:</font> <br />
 				<input  class="inputs" type="password" name="password" size="20" maxlength="32" value="" /> <br/>
-				<input type="submit" name="enter" value="LOGIN" />
+				<input type="submit" name="enter" value="ВОЙТИ" />
 			</form>
     	</center>
 	</div>

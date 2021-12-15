@@ -71,6 +71,20 @@
 		elem = document.getElementById('question'+y)
 		elem.innerHTML = b.outerHTML + '<div id="question' + (y + 1) + '"></div>';
 		elem.id = 'block'+(y+1);
+
+		elem.querySelector(".question-text").value = "";
+		a = elem.querySelectorAll(".answer-text");
+		for (var i = 0; i < a.length; i++) {
+			a[i].value = "";
+		}
+		elem.querySelector(".level").value = "";
+		elem.querySelector(".survey_topic").value = "";
+		elem.querySelector(".link").value = "";
+		r = elem.querySelectorAll(".radio");
+		for (var i = 0; i < r.length; i++) {
+			r[i].name = (y + 1);
+		}
+
 		quest = elem.querySelectorAll(".question-text");
 		quest.name = 'q'+(y+1);
 		answ = elem.querySelectorAll(".radio")
@@ -161,6 +175,11 @@
 		form.submit()
 	}
 
+	function reload_radio(elem_div)
+	{
+
+	}
+
 </script>
 
 
@@ -185,7 +204,8 @@
 				<input class="button-delete-question" type="button" value="X" onclick="delete_element(this)">
 			</div><br>
 
-			<p><input class="question-text" type="text" placeholder="Текст вопроса" name="q0" value="{{key}}"></p>
+			<p><textarea class="question-text" placeholder="Текст вопроса" name="q0">{{key}}</textarea></p>
+<!--			<p><input class="question-text" type="text" placeholder="Текст вопроса" name="q0" value="{{key}}"></p>-->
 
 			{% for answer in value %}
 			<div class="div-answer">
@@ -198,7 +218,8 @@
 						<input name="{{key.text_question}}" type="radio" class="radio">
 					{% endif %}
 				{% endif %}
-				<input class="answer-text" type="text" placeholder="Вариант ответа" name="{{key}}" value="{{answer}}">
+				<textarea class="answer-text" name="{{key}}" placeholder="Вариант ответа">{{answer}}</textarea>
+<!--				<input class="answer-text" type="text" placeholder="Вариант ответа" name="{{key}}" value="{{answer}}">-->
 			</div><br>
 			{% endfor %}
 
@@ -225,6 +246,7 @@
 			{% csrf_token %}
 			<input type="hidden" name="user" value="{{user}}">
 		</form>
+
 	</center>
 </body>
 

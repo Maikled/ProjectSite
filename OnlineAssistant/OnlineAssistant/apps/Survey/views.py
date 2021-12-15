@@ -110,16 +110,22 @@ def save_Survey(request):
     survey.save()
 
     for key_question, value_question in data['data'].items():
-        question = Question()
-        text_of_question = key_question
-        question.text_question = text_of_question
+        try:
+            question = Question.objects.get(text_question=key_question)
+        except:
+            question = Question()
+
+        question.text_question = key_question
         question.id_survey = survey
         question.save()
 
         for key_answer, value_answer in value_question['answers'].items():
-            answer = Answer()
-            answer_text = key_answer
-            answer.text_answer = answer_text
+            try:
+                answer = Answer.objects.get(text_answer=key_answer)
+            except:
+                answer = Answer()
+
+            answer.text_answer = key_answer
             answer.id_question = question
             answer.save()
             if value_answer == True:
@@ -143,11 +149,12 @@ def index_end_editor(request):
 def delete_question(request):
     data = loads(request.body)
     question = data['question']
-    question = Question.objects.get(text_question=question)
-    answers = Answer.objects.filter(id_question=question.id)
-    for i in answers:
-        i.delete()
-    question.delete()
+    question_list = Question.objects.filter(text_question=question)
+    for question in question_list:
+        answers = Answer.objects.filter(id_question=question.id)
+        for i in answers:
+            i.delete()
+        question.delete()
 
     return HttpResponse(request)
 

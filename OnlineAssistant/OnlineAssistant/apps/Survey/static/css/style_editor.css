@@ -32,6 +32,11 @@ body {
     padding: 1%;
     border-radius: 10px;
     border: 1px solid lightgray;
+    font-size: 14px;
+	font-family: Segoe UI;
+	resize: vertical;
+    min-height: 20px;
+    max-height: 40px;
 }
 
 .div-answer {
@@ -44,6 +49,11 @@ body {
     padding: 1%;
     border-radius: 10px;
     border: 1px solid lightgray;
+    font-size: 14px;
+	font-family: Segoe UI;
+	resize: vertical;
+    min-height: 20px;
+    max-height: 40px;
 }
 
 .add-answer-button {

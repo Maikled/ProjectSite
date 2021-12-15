@@ -24,7 +24,7 @@
 
 	<div class ="ipr">
 		<h3><font face="corbel">Прогресс выполнения ИПР:</font></h3>
-		{% for question, status in status_task.items %}
+		{% for question, status in st.items %}
 			<div>
 				{% if status == 0 %}
 					<input class="progressbar-false" type="button" disabled>
@@ -37,7 +37,7 @@
 		<br>
 		<h3><font face="corbel">Задачи ИПР:</font></h3>
 		<center>
-		{% for question, refs_and_status  in tasks.items %}
+		{% for question, refs_and_status in tasks.items %}
 			<div class="divs">
 				<div>
 					<label class="text">{{question.text_task}}</label>
@@ -45,7 +45,7 @@
 				{% for ref, status in refs_and_status.items %}
 						{% if status == 0 %}
 							<div class="refs-false">
-								<a href="{{ ref }}" name="href" onclick="send('{{ csrf_token }}', '{{ question.text_task }}')">{{ ref }}</a><br>
+								<a href="{{ ref }}" name="href" onclick="send('{{ csrf_token }}', '{{ question.text_task }}')" style="padding: 5%">{{ ref }}</a><br>
 							</div>
 						{% else %}
 							<div class="refs-true">

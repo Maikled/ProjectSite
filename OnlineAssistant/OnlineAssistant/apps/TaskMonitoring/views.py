@@ -55,13 +55,15 @@ def index_TM(request):
     t = 0
     f = 0
     data = {}
+    st = {}
     for i in iprs:
         data[i] = {i.link:i.status}
+        st[i] = i.status
         f += 1
         if i.status == 1:
             t += 1
 
-    return render(request, 'PersonalAccount/index_IPR.html', {'title':survey, 'tasks':data, 'status':f'{t}/{f}'})
+    return render(request, 'PersonalAccount/index_IPR.html', {'title':survey, 'tasks':data, 'status':f'{t}/{f}', 'st':st})
 
 
 def personal_task(request):
