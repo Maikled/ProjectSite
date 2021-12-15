@@ -24,6 +24,12 @@
 	<meta charset="UTF-8">
 
 	<div>
+		<form action="{% url 'leave_personal' %}">
+			<input type="submit" value="Выйти из аккаунта" class="leave">
+		</form>
+	</div>
+
+	<div>
 		<div>
 			{% if user.link_to_photo %}
 				<input class="photo" type="image" src="{{user.link_to_photo}}" alt="" formenctype="multipart/form-data"/>

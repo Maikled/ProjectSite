@@ -91,32 +91,27 @@ def editor_of_survey(request):
 
         for question in questions:
             data['questions'][question] = Answer.objects.filter(id_question_id=question.id)
-
-        return render(request, 'Survey/index_editor.html', {'data':data, 'user':user})
     else:
-        return render(request, 'Survey/index_editor.html', {'data':{'questions':{'create':''}}, 'user':user})
+        data['survey_name'] = ""
+        data['questions'] = {}
+        data['questions'][""] = ["", "", "", ""]
+
+    return render(request, 'Survey/index_editor.html', {'data':data, 'user':user})
 
 def save_Survey(request):
     data = loads(request.body)
-
-    survey = Survey()
     survey_name = data['survey_name']
-    # try:
-    #     s = Survey.objects.get(survey_topic=survey_name)
-    #     s.delete()
-    # except:
-    #     pass
+    try:
+        survey = Survey.objects.get(survey_topic=survey_name)
+    except:
+        survey = Survey()
+
     survey.survey_topic = survey_name
     survey.save()
 
     for key_question, value_question in data['data'].items():
         question = Question()
         text_of_question = key_question
-        # try:
-        #     q = Question.objects.get(text_question=text_of_question)
-        #     q.delete()
-        # except:
-        #     pass
         question.text_question = text_of_question
         question.id_survey = survey
         question.save()
@@ -124,11 +119,6 @@ def save_Survey(request):
         for key_answer, value_answer in value_question['answers'].items():
             answer = Answer()
             answer_text = key_answer
-            # try:
-            #     q = Answer.objects.get(text_answer=answer_text)
-            #     q.delete()
-            # except:
-            #     pass
             answer.text_answer = answer_text
             answer.id_question = question
             answer.save()
@@ -144,6 +134,29 @@ def save_Survey(request):
 
     return HttpResponse(request)
 
+
 def index_end_editor(request):
     user = request.POST.get('user')
     return render(request, 'Survey/index_end_editor.html', {'user_id':user})
+
+
+def delete_question(request):
+    data = loads(request.body)
+    question = data['question']
+    question = Question.objects.get(text_question=question)
+    answers = Answer.objects.filter(id_question=question.id)
+    for i in answers:
+        i.delete()
+    question.delete()
+
+    return HttpResponse(request)
+
+
+def delete_survey(request):
+    data = loads(request.body)
+    survey = data['survey_name']
+    survey = Survey.objects.filter(survey_topic=survey)
+    for i in survey:
+        i.delete()
+
+    return HttpResponse(request)

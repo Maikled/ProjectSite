@@ -11,11 +11,46 @@
 <script>
 	var x = -1;
 	var y = -1;
-	var count_elements = 1;
 
-	function delete_element(elem) {
+	async function delete_survey(survey_name)
+	{
+		const data = {}
+		data['survey_name'] = survey_name;
+
+		let l = '{% url 'index_end_editor' %}';
+		form = document.querySelector('.del');
+
+		choice = confirm('Удалить опрос?');
+		if (choice)
+		{
+			form.action = l;
+			await fetch('{% url 'delete_survey' %}',
+					{ body: JSON.stringify(data),
+					  method: 'POST',
+					  headers: { 'X-CSRFToken': '{{ csrf_token }}',
+								 'Content-Type': 'application/json;charset=utf-8'}
+								 });
+
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	async function delete_element(elem) {
+		const data = {};
+		question = elem.parentNode.parentNode.querySelector('.question-text');
+		data['question'] = question.value;
+
+		await fetch('{% url 'delete_question' %}',
+				{ body: JSON.stringify(data),
+				  method: 'POST',
+				  headers: { 'X-CSRFToken': '{{ csrf_token }}',
+				  			 'Content-Type': 'application/json;charset=utf-8'}
+				  			 });
+
 		elem.parentElement.parentElement.remove();
-		count_elements--;
 	}
 
 	function add_answer(){
@@ -35,7 +70,6 @@
 		b = document.getElementById('block'+y);
 		elem = document.getElementById('question'+y)
 		elem.innerHTML = b.outerHTML + '<div id="question' + (y + 1) + '"></div>';
-		count_elements++;
 		elem.id = 'block'+(y+1);
 		quest = elem.querySelectorAll(".question-text");
 		quest.name = 'q'+(y+1);
@@ -122,15 +156,28 @@
 				  headers: { 'X-CSRFToken': '{{ csrf_token }}',
 				  			 'Content-Type': 'application/json;charset=utf-8'},
 				  			 'user': '{{user}}',});
+
+		form = document.querySelector('.send');
+		form.submit()
 	}
+
 </script>
 
 
 <body>
 	<center>
 		<div class="survey_name_block">
-			<input class="survey-text" type="text" placeholder="Название опроса" name="survey_name" value="{{data.survey_name}}">
+			<div class="survey_text_block">
+				<input class="survey-text" type="text" placeholder="Название опроса" name="survey_name" value="{{data.survey_name}}">
+				<form action="" method="POST" class="del">
+					{% csrf_token %}
+					<input class="delete_survey" type="submit" value=" X " onclick="delete_survey('{{data.survey_name}}')">
+					<input type="hidden" value="{{user}}" name="user">
+				</form>
+			</div>
 		</div>
+
+
 
 		{% for key, value in data.questions.items %}
 		<div class ="block-question" id="block0">
@@ -142,36 +189,18 @@
 
 			{% for answer in value %}
 			<div class="div-answer">
-				{% if answer == key.id_right_answer %}
-					<input name="{{key}}" type="radio" class="radio" checked>
+				{% if answer == "" %}
+					<input name="0" type="radio" class="radio">
 				{% else %}
-					<input name="{{key}}" type="radio" class="radio">
+					{% if answer == key.id_right_answer %}
+						<input name="{{key.text_question}}" type="radio" class="radio" checked>
+					{% else %}
+						<input name="{{key.text_question}}" type="radio" class="radio">
+					{% endif %}
 				{% endif %}
-				<input class="answer-text" type="text" placeholder="Вариант ответа" name="00" value="{{answer}}">
+				<input class="answer-text" type="text" placeholder="Вариант ответа" name="{{key}}" value="{{answer}}">
 			</div><br>
 			{% endfor %}
-
-			{% if data.questions.create == '' %}
-				<div class="div-answer">
-					<input name="0" type="radio" class="radio">
-					<input class="answer-text" type="text" placeholder="Вариант ответа" name="00" value="{{answer}}">
-				</div><br>
-
-				<div class="div-answer">
-					<input name="0" type="radio" class="radio">
-					<input class="answer-text" type="text" placeholder="Вариант ответа" name="01">
-				</div><br>
-
-				<div class="div-answer">
-					<input name="0" type="radio" class="radio">
-					<input class="answer-text" type="text" placeholder="Вариант ответа" name="02">
-				</div><br>
-
-				<div class="div-answer">
-					<input name="0" type="radio" class="radio">
-					<input class="answer-text" type="text" placeholder="Вариант ответа" name="03">
-				</div><br>
-			{% endif %}
 
 			<div class="div-answer">
 				<input class="level" placeholder="Уровень (1-5)" name="level_question" value="{{key.level}}">
@@ -188,12 +217,13 @@
 			<input class="button-add-question" type="button" value="Добавить вопрос" onclick="add_question()">
 		</div>
 
-		<form action="{% url 'index_end_editor' %}" method="POST">
+		<div class="save">
+			<input class="button-save" type="submit" value="Сохранить опрос" onclick="result()">
+		</div>
+
+		<form action="{% url 'index_end_editor' %}" method="POST" class="send">
 			{% csrf_token %}
-			<div class="save">
-				<input class="button-save" type="submit" value="Сохранить опрос" onclick="result()">
-				<input type="hidden" name="user" value="{{user}}">
-			</div>
+			<input type="hidden" name="user" value="{{user}}">
 		</form>
 	</center>
 </body>

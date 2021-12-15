@@ -91,6 +91,7 @@ body {
     border-radius: 10px;
     border: 1px solid lightgray;
     text-align: center;
+    float: left;
 }
 
 .level-survey {
@@ -141,4 +142,17 @@ body {
     margin: 1%;
     margin-bottom: 2%;
     float: left;
+}
+
+.delete_survey {
+    background-color: #20B2AA;
+    border-radius: 10px;
+    border: 1px solid;
+    padding: 1%;
+    margin-left: 2%;
+}
+
+survey_text_block {
+    position: relative;
+    overflow: hidden;
 }

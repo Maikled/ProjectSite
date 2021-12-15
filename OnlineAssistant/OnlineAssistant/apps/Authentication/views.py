@@ -13,9 +13,9 @@ def verification(request):
     login = request.POST.get('login')
     password = request.POST.get('password')
 
-    # try:
-    authentication_user = Authentication.objects.get(login=login, password=password)
-    return index_PA(request, authentication_user)
-    # except:
-    #     return render(request, 'Authentication/index.html', {'status': 'false'})
+    try:
+        authentication_user = Authentication.objects.get(login=login, password=password)
+        return index_PA(request, authentication_user)
+    except:
+        return render(request, 'Authentication/index.html', {'status': 'false'})
 

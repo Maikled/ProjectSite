@@ -11,7 +11,7 @@
 	<script>
 		async function send(csrftoken, data){
 			await fetch('{% url 'href' %}',
-					{ body: data,
+					{ body: JSON.stringify(data),
 					  method: 'POST',
 					  headers: { 'X-CSRFToken': csrftoken,
 								 'Content-Type': 'application/json;charset=utf-8' } });
@@ -40,23 +40,22 @@
 		{% for question, refs_and_status  in tasks.items %}
 			<div class="divs">
 				<div>
-					<label class="text">{{question}}</label>
+					<label class="text">{{question.text_task}}</label>
 				</div>
 				{% for ref, status in refs_and_status.items %}
 						{% if status == 0 %}
 							<div class="refs-false">
-								<a href="{{ ref.material_link }}" name="href" onclick="send('{{ csrf_token }}', '{{ question.id }}')">{{ ref.material_link }}</a><br>
+								<a href="{{ ref }}" name="href" onclick="send('{{ csrf_token }}', '{{ question.text_task }}')">{{ ref }}</a><br>
 							</div>
 						{% else %}
 							<div class="refs-true">
-								<a href="{{ ref.material_link }}" name="href">{{ ref.material_link }}</a><br>
+								<a href="{{ ref }}" name="href">{{ ref }}</a><br>
 							</div>
 						{% endif %}
 				{% endfor %}
 			</div>
 			<br>
 		{% endfor %}
-<!--		<input class="button2" type="button" value="Добавить задачу" />-->
 		</center>
 	</div>
 

@@ -45,7 +45,7 @@ body {
 
 .photo {
 	margin-left: 18%;
-	top: 4.3%;
+	top: 13%;
 	width: 10%;
 	height: 20%;
 	border-radius: 20px;
@@ -123,4 +123,13 @@ body {
     left: 0%;
     width: 80%;
     margin-top: 3%;
+}
+
+.leave {
+    position: relative;
+    padding: 0.5%;
+    background: #20B2AA;
+    border-radius: 10px;
+    left: 2%;
+    margin: 1%;
 }

@@ -4,7 +4,7 @@ from Survey.views import list_of_Surveys
 from Survey.models import Survey, Question
 from TaskMonitoring.views import check_user, index_TM, progress_of_ipr, personal_task
 from TaskMonitoring.models import IPR
-import json
+from json import loads
 
 
 # Create your views here.
@@ -40,8 +40,8 @@ def ipr(request):
 
 
 def href(request):
-    data = json.loads(request.body)
-    data = Question.objects.get(id=data)
+    data = loads(request.body)
+    data = Question.objects.get(text_question=data)
     task = IPR.objects.get(text_task=data.text_question)
     task.status = 1
     task.save()
@@ -50,3 +50,7 @@ def href(request):
 
 def personal_task_of_employes(request):
     return personal_task(request)
+
+
+def leave_personal(request):
+    return render(request, 'Authentication/index.html')

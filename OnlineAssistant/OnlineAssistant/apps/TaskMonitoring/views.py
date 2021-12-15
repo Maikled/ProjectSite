@@ -33,6 +33,9 @@ def check_user(user_id):
             ipr.topic_survey = elem.survey
             ipr.text_task = elem.question
             ipr.status = 0
+            q = elem.question
+            l = Question.objects.get(text_question=q)
+            ipr.link = l.material_link
             ipr.save()
 
     data = {}
@@ -46,24 +49,23 @@ def check_user(user_id):
 def index_TM(request):
     id_user = request.POST.get('id')
     survey = request.POST.get('data_key')
-    tasks = {el.text_task:el.status for el in IPR.objects.filter(topic_survey=survey, user_id=id_user)}
 
-    dict_of_task = {}
+    iprs = IPR.objects.filter(topic_survey=survey, user_id=id_user)
+
     t = 0
     f = 0
-    for key, value in tasks.items():
-        question = Question.objects.get(text_question=key)
-        dict_of_task[question] = {el:value for el in Question.objects.filter(text_question=key)}
+    data = {}
+    for i in iprs:
+        data[i] = {i.link:i.status}
         f += 1
-        if value == 1:
+        if i.status == 1:
             t += 1
 
-    return render(request, 'PersonalAccount/index_IPR.html', {'title':survey, 'tasks':dict_of_task, 'status_task':tasks, 'status':f'{t}/{f}'})
+    return render(request, 'PersonalAccount/index_IPR.html', {'title':survey, 'tasks':data, 'status':f'{t}/{f}'})
 
 
 def personal_task(request):
     data_of_employee = request.POST.get('employee')
-    print(data_of_employee)
     data_of_employee = Employee.objects.get(aut_id=data_of_employee)
     ipr_of_employee = IPR.objects.filter(user_id=data_of_employee.id)
 

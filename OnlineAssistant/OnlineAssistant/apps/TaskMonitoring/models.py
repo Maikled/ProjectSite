@@ -6,3 +6,4 @@ class IPR(models.Model):
     text_task = models.TextField('text_task')
     status = models.IntegerField('status')
     topic_survey = models.CharField('topic_survey', max_length=50)
+    link = models.TextField('link', null=True, blank=True)

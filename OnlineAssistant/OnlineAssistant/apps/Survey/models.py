@@ -22,7 +22,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     text_answer = models.TextField('text_answer')
-    id_question = models.ForeignKey('Question', on_delete=models.PROTECT, null=True, blank=True)
+    id_question = models.ForeignKey('Question', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.text_answer

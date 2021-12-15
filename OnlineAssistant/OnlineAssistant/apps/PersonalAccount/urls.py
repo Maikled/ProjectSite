@@ -10,4 +10,5 @@ urlpatterns = [
     path('index_Survey', index_Survey, name='index_Survey'),
     path('personal_task', views.personal_task_of_employes, name='personal_task'),
     path('editor_of_survey', editor_of_survey, name='editor_of_survey'),
+    path('leave_personal', views.leave_personal, name='leave_personal'),
 ]
